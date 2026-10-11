@@ -16,7 +16,7 @@ while (fileScan.hasNextInt()) {
 
 if (values.size != players * 8) {
         System.out.println("Invalid number of cards in the deck");
-        return;
+        return; // validates the correct number of cards
     }
 
     private List<Card> cardConversion(List<Integer> values) {
