@@ -24,16 +24,6 @@ if (values.size != players * 8) {
 
     }
 
-    public class CardGame {
-        private int players;
-        private List<Integer> values;
-
-        public void startGame() {
-            
-        }
-
-    }
-
 
 
 
