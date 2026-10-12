@@ -1,3 +1,14 @@
+import java.io.File
+import java.util.ArrayList
+import java.util.Scanner
+
+public class CardGame {
+    private int players;
+    private List<Integer> values;
+
+    public CardGame() {
+        this.values = new ArrayList<>();
+    }
 Scanner scanner = new Scanner(System.in);
 System.out.println("Enter number of players: ");
 int players = scanner.nextInt(); //scanner reads number of players
