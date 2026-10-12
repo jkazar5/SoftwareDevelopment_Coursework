@@ -9,13 +9,14 @@ public class CardGame {
     public CardGame() {
         this.values = new ArrayList<>();
     }
-Scanner scanner = new Scanner(System.in);
-System.out.println("Enter number of players: ");
-int players = scanner.nextInt(); //scanner reads number of players
 
+    public void startGame() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter number of players: ");
+        players = Scanner.nextInt();
 
-System.out.println("Enter location of the pack file: ");
-String packfile = scanner.next(); //player enters file used for the curd values
+        System.out.println("Enter location of the pack file: ");
+        String packfile = scanner.next(); //player enters file used for the curd values
 
 
 Scanner fileScan = new Scanner(new File(packfile)); //scanner reads file
