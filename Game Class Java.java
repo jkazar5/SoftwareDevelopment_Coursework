@@ -40,7 +40,11 @@ public class CardGame {
             
     private List<Card> cardConversion(List<Integer> values) {
         List<Card> pack = new ArrayList<>();
-    }
+
+        for(int value : values) {
+            pack.add(new Card(value)); //Turn integers from the file into card objects
+        }
+        return pack;
     }
 
 
