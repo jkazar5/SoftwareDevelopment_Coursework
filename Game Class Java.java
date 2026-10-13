@@ -16,26 +16,31 @@ public class CardGame {
         players = Scanner.nextInt();
 
         System.out.println("Enter location of the pack file: ");
-        String packfile = scanner.next(); //player enters file used for the curd values
+        String packfile = scanner.next(); //player enters file used for the card values
 
         readPackFile(packFile);
 
         if (values.size() != players * 8) {
             System.out.println("Invalid number of cards in the deck");
-            return;
-
-
-Scanner fileScan = new Scanner(new File(packfile)); //scanner reads file
-List<Integer> values = new ArrayList<>();
-
-while (fileScan.hasNextInt()) {
-    values.add(fileScan.nextInt) // file values are entered into a list
-}
-
-
+            return; // validating size of card pack
+        }
+    }
+        
+    private void readPackFile(String packFile) {
+        try {
+            Scanner fileScan = new Scanner(new File(packfile)); //scanner reads file
+            
+            while (fileScan.hasNextInt()) {
+            values.add(fileScan.nextInt()); // file values are entered into list
+        }
+            catch (Exception e) {
+            System.out.println("File could not be read" + e.getMessage());
+        }
+            
+            
     private List<Card> cardConversion(List<Integer> values) {
         List<Card> pack = new ArrayList<>();
-
+    }
     }
 
 
