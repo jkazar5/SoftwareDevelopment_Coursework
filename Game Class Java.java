@@ -27,11 +27,16 @@ public class CardGame {
 
         List<Card> pack = cardConversion(values);
 
-        List<Deck> playerDecks = new ArrayList<>();
+        List<Deck> playerDecks = new ArrayList<>(); // list that will hold each players deck
 
         for (int i = 0; i < players; i++) {
-            playerDecks.add(new Deck()); // Gives each player their own deck
+            playerDecks.add(new Deck()); // Gives each player their own empty deck
         }
+
+        for (int i = 0; i < players; i++) { // loop for each player
+            for j = 0; j < 4; j++) { // 4 loops for each card in the player deck
+                Card c = pack.remove(0);
+                
 
         
     }
