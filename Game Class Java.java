@@ -24,6 +24,16 @@ public class CardGame {
             System.out.println("Invalid number of cards in the deck");
             return; // validating size of card pack
         }
+
+        List<Card> pack = cardConversion(values);
+
+        List<Deck> playerDecks = new ArrayList<>();
+
+        for (int i = 0; i < players; i++) {
+            playerDecks.add(new Deck()); // Gives each player their own deck
+        }
+
+        
     }
         
     private void readPackFile(String packFile) {
@@ -45,6 +55,8 @@ public class CardGame {
             pack.add(new Card(value)); //Turn integers from the file into card objects
         }
         return pack;
+
+    
     }
 
 
