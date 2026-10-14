@@ -36,9 +36,7 @@ public class CardGame {
             }
         }
 
-        // -------------------------
         // CREATE DECKS
-        // -------------------------
 
         ArrayList<Deck> decks =
                 new ArrayList<>();
@@ -50,9 +48,7 @@ public class CardGame {
             decks.add(new Deck(i));
         }
 
-        // -------------------------
         // CREATE PLAYERS
-        // -------------------------
 
         ArrayList<Player> players =
                 new ArrayList<>();
@@ -80,9 +76,7 @@ public class CardGame {
             players.add(player);
         }
 
-        // -------------------------
         // DEAL PLAYER HANDS
-        // -------------------------
 
         int packPosition = 0;
 
@@ -104,10 +98,8 @@ public class CardGame {
             }
         }
 
-        // -------------------------
         // DEAL REMAINING CARDS
         // TO DECKS
-        // -------------------------
 
         int deckNumber = 0;
 
@@ -125,9 +117,7 @@ public class CardGame {
                     % numberOfPlayers;
         }
 
-        // -------------------------
         // CHECK FOR INITIAL WINNER
-        // -------------------------
 
         Player winner = null;
 
@@ -152,9 +142,7 @@ public class CardGame {
             return;
         }
 
-        // -------------------------
         // DISPLAY TEST INFORMATION
-        // -------------------------
 
         System.out.println();
         System.out.println("Game successfully created.");
