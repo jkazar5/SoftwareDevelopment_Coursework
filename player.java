@@ -129,14 +129,35 @@ public class Player implements Runnable{
     @Override
     public void run() {
     
-        while (!hasWon()) {
+        // Check starting hand
+        if (hasWon()) {
+    
+            if (winner.compareAndSet(0, playerId)) {
+                System.out.println(
+                        "player " + playerId + " wins"
+                );
+            }
+    
+            return;
+        }
+    
+    
+        // Normal gameplay
+        while (winner.get() == 0) {
     
             takeTurn();
     
-        }
+            if (hasWon()) {
     
-        System.out.println(
-                "player " + playerId + " wins"
-        );
+                if (winner.compareAndSet(0, playerId)) {
+    
+                    System.out.println(
+                            "player " + playerId + " wins"
+                    );
+                }
+    
+                break;
+            }
+        }
     }
 }
