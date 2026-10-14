@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class Player {
+public class Player implements Runnable{
 
     private final int playerId;
     private final ArrayList<Card> hand;
+    private static final AtomicInteger winner = new AtomicInteger(0);
 
     private final Deck drawDeck;
     private final Deck discardDeck;
@@ -123,5 +125,18 @@ public class Player {
         }
 
         return result.toString().trim();
+    }
+    @Override
+    public void run() {
+    
+        while (!hasWon()) {
+    
+            takeTurn();
+    
+        }
+    
+        System.out.println(
+                "player " + playerId + " wins"
+        );
     }
 }
