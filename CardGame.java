@@ -181,12 +181,24 @@ public class CardGame {
             );
         }
 
+        for (Thread thread : threads) {
+
+            try {
+        
+                thread.join();
+        
+            } catch (InterruptedException e) {
+        
+                System.out.println(
+                        "Thread was interrupted."
+                );
+            }
+        }
+
         input.close();
     }
 
-    // --------------------------------
     // GET NUMBER OF PLAYERS
-    // --------------------------------
 
     public static int getNumberOfPlayers(
             Scanner input) {
@@ -225,9 +237,7 @@ public class CardGame {
         return numberOfPlayers;
     }
 
-    // --------------------------------
     // LOAD AND VALIDATE PACK
-    // --------------------------------
 
     public static ArrayList<Card> loadPack(
             String filename,
