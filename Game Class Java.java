@@ -37,6 +37,14 @@ public class CardGame {
             for j = 0; j < 4; j++) { // 4 loops for each card in the player deck
                 Card c = pack.remove(0);
                 playerDecks.get(i).discard(c); //recalls discard method from deck class
+                // adds 4 cards to each deck
+
+        List<Player> playerObjects = new ArrayList<>();
+        for (int i = 0; i < players; i++) {
+            
+            
+
+            
                 
 
         
