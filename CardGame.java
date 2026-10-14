@@ -138,6 +138,17 @@ public class CardGame {
                     + " wins"
             );
 
+            ArrayList<Thread> threads = new ArrayList<>();
+
+            for (Player player : players) {
+            
+                Thread thread = new Thread(player);
+            
+                threads.add(thread);
+            
+                thread.start();
+            }
+
             input.close();
             return;
         }
