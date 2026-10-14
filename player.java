@@ -92,23 +92,37 @@ public class Player implements Runnable{
 
     public void takeTurn() {
 
-        Card drawnCard = drawDeck.drawCard();
-
-        if (drawnCard == null) {
-            return;
+        Deck firstDeck;
+        Deck secondDeck;
+    
+        // Always lock decks in ID order
+        if (drawDeck.getDeckId() < discardDeck.getDeckId()) {
+            firstDeck = drawDeck;
+            secondDeck = discardDeck;
+        } else {
+            firstDeck = discardDeck;
+            secondDeck = drawDeck;
         }
-
-        // Temporarily have 5 cards
-        hand.add(drawnCard);
-
-        Card discard =
-                selectCardToDiscard();
-
-        if (discard != null) {
-
-            hand.remove(discard);
-
-            discardDeck.addCard(discard);
+    
+        synchronized (firstDeck) {
+    
+            synchronized (secondDeck) {
+    
+                Card drawnCard = drawDeck.drawCard();
+    
+                if (drawnCard == null) {
+                    return;
+                }
+    
+                hand.add(drawnCard);
+    
+                Card discard = selectCardToDiscard();
+    
+                if (discard != null) {
+                    hand.remove(discard);
+                    discardDeck.addCard(discard);
+                }
+            }
         }
     }
 
