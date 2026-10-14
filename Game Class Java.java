@@ -36,6 +36,7 @@ public class CardGame {
         for (int i = 0; i < players; i++) { // loop for each player
             for j = 0; j < 4; j++) { // 4 loops for each card in the player deck
                 Card c = pack.remove(0);
+                playerDecks.get(i)
                 
 
         
