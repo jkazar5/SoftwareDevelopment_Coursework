@@ -1,4 +1,3 @@
-@Test
 
 public static void main(String[] args) {
     // Check if card can store numbers
