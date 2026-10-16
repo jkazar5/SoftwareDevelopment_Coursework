@@ -1,12 +1,12 @@
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-public static void main(String[] args) {
-    // Check if card can store numbers
-    Card test1 = new Card(5);
-    if (test1.getDenomination() == 5) {
-        System.out.println("Card stores numbers")
-    }
-    else {
-        System.out.println("Card cannot store numbers") 
+public class CardTest {
+
+    @Test
+    public void test1() {
+        Card c = new Card(1);
+        assertEquals(1, c.getDenomination());
     }
 
     //Check if card rejects negative numbers
@@ -16,7 +16,7 @@ public static void main(String[] args) {
     }
     catch (IllegalArgumentException e) {
         System.out.println("negative number rejected");
-    }
+    } 
 
     // Testing toString()
     Card test3 = new Card(3);
