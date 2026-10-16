@@ -4,19 +4,17 @@ import static org.junit.Assert.*;
 public class CardTest {
 
     @Test
+    //Check if Card can store numbers
     public void test1() {
         Card c = new Card(1);
         assertEquals(1, c.getDenomination());
     }
 
+    @Test(e = IllegalArgumentException.class)
     //Check if card rejects negative numbers
-    try {
-        Card test2 = new Card(-2);
-        System.out.println("negative number was accepted");
+    public void test2() {
+        new Card(-2);
     }
-    catch (IllegalArgumentException e) {
-        System.out.println("negative number rejected");
-    } 
 
     // Testing toString()
     Card test3 = new Card(3);
