@@ -10,10 +10,12 @@ public class CardTest {
         assertEquals(1, c1.getDenomination());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     //Check if card rejects negative numbers
     public void test2() {
-        new Card(-2);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Card(-2);
+        });
     }
 
     @Test
