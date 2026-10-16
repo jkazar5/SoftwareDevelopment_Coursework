@@ -7,7 +7,7 @@ public class CardTest {
     //Check if Card can store numbers
     public void test1() {
         Card c1 = new Card(1);
-        assertEquals(1, c.getDenomination());
+        assertEquals(1, c1.getDenomination());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -20,6 +20,6 @@ public class CardTest {
     // Testing toString()
     public void test3() {
         Card c3 = new Card(3);
-        assertEquals("3", c.toString());
+        assertEquals("3", c3.toString());
     }
 }
