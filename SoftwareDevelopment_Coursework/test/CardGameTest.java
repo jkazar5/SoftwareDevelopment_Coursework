@@ -20,6 +20,11 @@ public class CardGameTest {
 
     @Test
     //Test pack with negative number
+    public void testInvalidPack2() {
+        ArrayList<Card> pack = CardGame.loadPack("negativeValue.txt");
+        assertNull(pack);
+    }
+    
 
         
     
