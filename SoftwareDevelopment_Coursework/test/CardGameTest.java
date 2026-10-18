@@ -17,7 +17,9 @@ public class CardGameTest {
         ArrayList<Card> pack = CardGame.loadPack("wrongCount.txt");
         assertNull(pack);
     }
-    
+
+    @Test
+    //Test pack with negative number
 
         
     
