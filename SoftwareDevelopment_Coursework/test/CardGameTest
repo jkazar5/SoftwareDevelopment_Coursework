@@ -1,7 +1,0 @@
-import static org.junit.AssertEquals;
-import org.junit.Test;
-
-public class CardGameTest {
-
-@Test
-public void
