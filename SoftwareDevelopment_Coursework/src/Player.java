@@ -207,6 +207,51 @@ public class Player implements Runnable{
         return result.toString().trim();
     }
 
+    public void writeInitialWinResult(int winningPlayerId) {
+
+        // Create a new output file
+        try (PrintWriter writer = new PrintWriter(
+                new FileWriter(
+                    "player" + playerId + "_output.txt"
+                ))) {
+    
+            writer.println(
+                "player " + playerId +
+                " initial hand " + handToString()
+            );
+    
+            if (playerId == winningPlayerId) {
+    
+                writer.println(
+                    "player " + playerId + " wins"
+                );
+    
+            } else {
+    
+                writer.println(
+                    "player " + winningPlayerId +
+                    " has informed player " + playerId +
+                    " that player " + winningPlayerId + " has won"
+                );
+            }
+    
+            writer.println(
+                "player " + playerId + " exits"
+            );
+    
+            writer.println(
+                "player " + playerId +
+                " final hand: " + handToString()
+            );
+    
+        } catch (IOException e) {
+    
+            System.out.println(
+                "Error creating player " + playerId + " output file."
+            );
+        }
+    }
+
     // running the class with override
     @Override
     public void run() {
