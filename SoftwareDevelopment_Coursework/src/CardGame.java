@@ -135,18 +135,18 @@ public class CardGame {
             }
         }
 
-        if (winner != null) {
+       if (winner != null) {
 
+            Player.declareWinner(winner.getPlayerId());
+        
             System.out.println(
                 "player " + winner.getPlayerId() + " wins"
             );
         
-            // Create player output files
             for (Player player : players) {
                 player.writeInitialWinResult(winner.getPlayerId());
             }
         
-            // Create deck output files
             writeDeckFiles(decks);
         
             input.close();
@@ -214,12 +214,29 @@ public class CardGame {
             }
         }
 
-// Write final deck contents to files
-writeDeckFiles(decks);
+        int totalCards = 0;
 
-System.out.println("Deck output files generated.");
-
-input.close();
+        for (Player player : players) {
+            totalCards += player.getHand().size();
+        }
+        
+        for (Deck deck : decks) {
+            totalCards += deck.getSize();
+        }
+        
+        System.out.println(
+            "Total cards remaining: " + totalCards
+        );
+        
+        System.out.println(
+            "Expected cards: " + (8 * numberOfPlayers)
+        );
+        // Write final deck contents to files
+        writeDeckFiles(decks);
+        
+        System.out.println("Deck output files generated.");
+        
+        input.close();
 
         input.close();
     }
