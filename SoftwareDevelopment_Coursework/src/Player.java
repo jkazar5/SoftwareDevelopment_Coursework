@@ -88,12 +88,16 @@ public class Player implements Runnable{
         }
 
         if (possibleCards.isEmpty()) {
-            return null;
-        }
 
+            // If all cards are preferred, discard a random card
+            int randomIndex = random.nextInt(hand.size());
+        
+            return hand.get(randomIndex);
+        }
+        
         int randomIndex =
                 random.nextInt(possibleCards.size());
-
+        
         return possibleCards.get(randomIndex);
     }
 
