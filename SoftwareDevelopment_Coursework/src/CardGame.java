@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -197,18 +200,29 @@ public class CardGame {
         // wait for threads to finish then complete
 
         for (Thread thread : threads) {
-
+        
             try {
         
                 thread.join();
         
             } catch (InterruptedException e) {
         
+                Thread.currentThread().interrupt();
+        
                 System.out.println(
                         "Thread was interrupted."
                 );
+        
+                return;
             }
         }
+
+// Write final deck contents to files
+writeDeckFiles(decks);
+
+System.out.println("Deck output files generated.");
+
+input.close();
 
         input.close();
     }
@@ -315,5 +329,29 @@ public class CardGame {
         }
 
         return pack;
+    }
+    public static void writeDeckFiles(ArrayList<Deck> decks) {
+
+        for (Deck deck : decks) {
+    
+            String filename =
+                    "deck" + deck.getDeckId() + "_output.txt";
+    
+            try (PrintWriter writer =
+                    new PrintWriter(new FileWriter(filename))) {
+    
+                writer.println(
+                    "deck" + deck.getDeckId() +
+                    " contents: " + deck.toString()
+                );
+    
+            } catch (IOException e) {
+    
+                System.out.println(
+                    "Error writing deck " +
+                    deck.getDeckId() + " output file."
+                );
+            }
+        }
     }
 }
