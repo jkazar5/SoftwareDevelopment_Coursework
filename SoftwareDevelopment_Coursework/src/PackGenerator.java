@@ -1,34 +1,39 @@
+
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class PackGenerator {
 
-    public static void generatePack(int numberOfPlayers, String filename) {
+    public static void generatePack(int numberOfPlayers) {
 
-        Random random = new Random();
+        ArrayList<Integer> cards = new ArrayList<>();
 
-        try {
-            FileWriter writer = new FileWriter(filename);
+        // Add 8 cards for each player denomination
+        for (int i = 1; i <= numberOfPlayers; i++) {
+            for (int j = 0; j < 8; j++) {
+                cards.add(i);
+            }
+        }
 
-            for (int i = 0; i < 8 * numberOfPlayers; i++) {
+        // Shuffle the cards
+        Collections.shuffle(cards);
 
-                int denomination =
-                        random.nextInt(numberOfPlayers) + 1;
+        // Save the pack to a text file
+        try (FileWriter writer = new FileWriter("Pack.txt")) {
 
-                writer.write(
-                        denomination + System.lineSeparator()
-                );
+            for (int card : cards) {
+                writer.write(card + System.lineSeparator());
             }
 
-            writer.close();
+            System.out.println("Pack.txt generated successfully.");
+            System.out.println("Total cards: " + cards.size());
 
         } catch (IOException e) {
-            System.out.println("Could not create pack file.");
+            System.out.println(
+                "Error generating pack: " + e.getMessage()
+            );
         }
-    }
-    public static void main(String[] args) {
-        generatePack(4, "pack.txt");
-        System.out.println("pack.txt created.");
     }
 }
