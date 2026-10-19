@@ -31,6 +31,13 @@ public class PlayerTest {
         player.addCardToHand(new Card(2));
         player.addCardToHand(new Card(3));
         player.addCardToHand(new card(4));
+        // adding initial player hand
+
+        player.takeTurn();
+
+        assertEquals(4, player.getHand().size());
+        // check if hand still has 4 cards
+        
 
         
 
