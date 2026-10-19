@@ -181,6 +181,21 @@ public class CardGame {
             );
         }
 
+        // start player threads 
+
+        ArrayList<Thread> threads = new ArrayList<>();
+
+        for (Player player : players) {
+
+                Thread thread = new Thread(player);
+
+                threads.add(thread);
+
+                thread.start();
+        }
+
+        // wait for threads to finish then complete
+
         for (Thread thread : threads) {
 
             try {
