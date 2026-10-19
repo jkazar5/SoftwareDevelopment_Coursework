@@ -54,15 +54,15 @@ public class PlayerTest {
         Player player = new Player(3, drawDeck, discardDeck);
 
         //give player a hand with 1 different card
-        player.addCardToHand(new Card(2));
-        player.addCardToHand(new Card(2));
+        player.addCardToHand(new Card(3));
+        player.addCardToHand(new Card(3));
         player.addCardToHand(new Card(2));
         player.addCardToHand(new Card(3));
 
         Card discardCard = player.selectCardToDiscard();
 
         assertNotNull(discardCard);
-        assertEquals(3, discardCard.getDenomination());
+        assertEquals(2, discardCard.getDenomination());
         //Check if the undesired card was the one discarded
     }
 
@@ -74,10 +74,10 @@ public class PlayerTest {
 
         Player player = new Player(4, drawDeck, discardDeck);
         
-        player.addCardToHand(new Card(5));
-        player.addCardToHand(new Card(5));
-        player.addCardToHand(new Card(5));
-        player.addCardToHand(new Card(5));
+        player.addCardToHand(new Card(4));
+        player.addCardToHand(new Card(4));
+        player.addCardToHand(new Card(4));
+        player.addCardToHand(new Card(4));
         // add 4 cards of same denomination to hand
 
         assertTrue(player.haswon());
