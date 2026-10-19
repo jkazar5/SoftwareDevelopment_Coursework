@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Player implements Runnable{
 
+    // all the private variables used by the player
     private final int playerId;
     private final ArrayList<Card> hand;
     private static final AtomicInteger winner = new AtomicInteger(0);
@@ -12,7 +13,8 @@ public class Player implements Runnable{
     private final Deck discardDeck;
 
     private final Random random;
-
+    
+    // player class that creates a new player at the start of each round
     public Player(int playerId, Deck drawDeck, Deck discardDeck) {
 
         this.playerId = playerId;
@@ -23,6 +25,7 @@ public class Player implements Runnable{
         this.random = new Random();
     }
 
+    // getting methods
     public int getPlayerId() {
         return playerId;
     }
@@ -31,6 +34,7 @@ public class Player implements Runnable{
         return playerId;
     }
 
+    // exception used so that handsize cant be above 4
     public void addCardToHand(Card card) {
 
         if (hand.size() >= 4) {
@@ -41,10 +45,12 @@ public class Player implements Runnable{
         hand.add(card);
     }
 
+    
     public ArrayList<Card> getHand() {
         return new ArrayList<>(hand);
     }
 
+    // method that is used to figure out if any of the players have won yet
     public boolean hasWon() {
 
         if (hand.size() != 4) {
@@ -66,6 +72,7 @@ public class Player implements Runnable{
         return true;
     }
 
+    // Method used to figure out the best card for the player to discard in that round
     public Card selectCardToDiscard() {
 
         ArrayList<Card> possibleCards =
@@ -90,6 +97,7 @@ public class Player implements Runnable{
         return possibleCards.get(randomIndex);
     }
 
+    // take turn method discards and takes a card from each of the decks on either side of the player to complete the players current hand
     public void takeTurn() {
 
         Deck firstDeck;
@@ -126,6 +134,7 @@ public class Player implements Runnable{
         }
     }
 
+    // converting the hand to a string to make it easier for the code to deal with than the integers
     public String handToString() {
 
         StringBuilder result =
@@ -140,6 +149,8 @@ public class Player implements Runnable{
 
         return result.toString().trim();
     }
+
+    // running the class with override
     @Override
     public void run() {
     
