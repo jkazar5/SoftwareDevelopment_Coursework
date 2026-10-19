@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Player implements Runnable{
 
@@ -101,6 +104,24 @@ public class Player implements Runnable{
         return possibleCards.get(randomIndex);
     }
 
+    private void writeToFile(String message) {
+
+        try (PrintWriter writer = new PrintWriter(
+                new FileWriter(
+                    "player" + playerId + "_output.txt",
+                    true
+                ))) {
+    
+            writer.println(message);
+    
+        } catch (IOException e) {
+    
+            System.out.println(
+                "Error writing to player " + playerId + " output file."
+            );
+        }
+    }
+    
     // take turn method discards and takes a card from each of the decks on either side of the player to complete the players current hand
     public void takeTurn() {
 
@@ -117,9 +138,14 @@ public class Player implements Runnable{
         }
     
         synchronized (firstDeck) {
-    
             synchronized (secondDeck) {
     
+                // Stop if another player has won
+                if (winner.get() != 0) {
+                    return;
+                }
+    
+                // Draw a card
                 Card drawnCard = drawDeck.drawCard();
     
                 if (drawnCard == null) {
@@ -128,16 +154,43 @@ public class Player implements Runnable{
     
                 hand.add(drawnCard);
     
+                // Record the drawn card
+                String drawMessage =
+                    "player " + playerId +
+                    " draws a " + drawnCard.getDenomination() +
+                    " from deck " + drawDeck.getDeckId();
+    
+                System.out.println(drawMessage);
+                writeToFile(drawMessage);
+    
+                // Select a card to discard
                 Card discard = selectCardToDiscard();
     
                 if (discard != null) {
+    
                     hand.remove(discard);
                     discardDeck.addCard(discard);
+    
+                    // Record the discarded card
+                    String discardMessage =
+                        "player " + playerId +
+                        " discards a " + discard.getDenomination() +
+                        " to deck " + discardDeck.getDeckId();
+    
+                    System.out.println(discardMessage);
+                    writeToFile(discardMessage);
                 }
+    
+                // Record the player's current hand
+                String handMessage =
+                    "player " + playerId +
+                    " current hand is " + handToString();
+    
+                System.out.println(handMessage);
+                writeToFile(handMessage);
             }
         }
     }
-
     // converting the hand to a string to make it easier for the code to deal with than the integers
     public String handToString() {
 
@@ -158,35 +211,79 @@ public class Player implements Runnable{
     @Override
     public void run() {
     
-        // Check starting hand
+        // Create output file and record initial hand
+        try (PrintWriter writer = new PrintWriter(
+                new FileWriter(
+                    "player" + playerId + "_output.txt"
+                ))) {
+    
+            writer.println(
+                "player " + playerId +
+                " initial hand " + handToString()
+            );
+    
+        } catch (IOException e) {
+            System.out.println("Error creating player output file.");
+        }
+    
+        // Check for an immediate win
         if (hasWon()) {
     
             if (winner.compareAndSet(0, playerId)) {
+    
                 System.out.println(
-                        "player " + playerId + " wins"
+                    "player " + playerId + " wins"
+                );
+    
+                writeToFile(
+                    "player " + playerId + " wins"
                 );
             }
     
-            return;
-        }
+        } else {
     
+            // Normal gameplay
+            while (winner.get() == 0) {
     
-        // Normal gameplay
-        while (winner.get() == 0) {
+                takeTurn();
     
-            takeTurn();
+                if (hasWon()) {
     
-            if (hasWon()) {
+                    if (winner.compareAndSet(0, playerId)) {
     
-                if (winner.compareAndSet(0, playerId)) {
-    
-                    System.out.println(
+                        System.out.println(
                             "player " + playerId + " wins"
-                    );
-                }
+                        );
     
-                break;
+                        writeToFile(
+                            "player " + playerId + " wins"
+                        );
+                    }
+    
+                    break;
+                }
             }
         }
+    
+        // Record the end of the game
+        int winningPlayer = winner.get();
+    
+        if (winningPlayer != playerId && winningPlayer != 0) {
+    
+            writeToFile(
+                "player " + winningPlayer +
+                " has informed player " + playerId +
+                " that player " + winningPlayer + " has won"
+            );
+        }
+    
+        writeToFile(
+            "player " + playerId + " exits"
+        );
+    
+        writeToFile(
+            "player " + playerId +
+            " final hand: " + handToString()
+        );
     }
 }
