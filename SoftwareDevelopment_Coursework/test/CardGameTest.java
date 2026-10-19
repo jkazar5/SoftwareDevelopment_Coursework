@@ -6,7 +6,7 @@ public class CardGameTest {
 
     @Test
     public void testValidPack() {
-        ArrayList<Card> pack = CardGame.loadPack("validPack.txt, 4);
+        ArrayList<Card> pack = CardGame.loadPack("validPack.txt", 4);
         assertNotNull(pack);
         assertEquals(32, pack.size());
     }
