@@ -11,6 +11,7 @@ public class Player implements Runnable{
     private final int playerId;
     private final ArrayList<Card> hand;
     private static final AtomicInteger winner = new AtomicInteger(0);
+    private static final Object gameLock = new Object();
 
     private final Deck drawDeck;
     private final Deck discardDeck;
@@ -26,6 +27,10 @@ public class Player implements Runnable{
 
         this.hand = new ArrayList<>();
         this.random = new Random();
+    }
+
+    public static void resetGame() {
+        winner.set(0);
     }
 
     // getting methods
@@ -292,20 +297,22 @@ public class Player implements Runnable{
     
                 takeTurn();
     
-                if (hasWon()) {
-    
-                    if (winner.compareAndSet(0, playerId)) {
-    
+                synchronized (gameLock) {
+
+                    if (winner.get() == 0 && hasWon()) {
+                
+                        winner.set(playerId);
+                
                         System.out.println(
                             "player " + playerId + " wins"
                         );
-    
+                
                         writeToFile(
                             "player " + playerId + " wins"
                         );
+                
+                        break;
                     }
-    
-                    break;
                 }
             }
         }
