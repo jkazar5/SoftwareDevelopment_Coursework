@@ -136,22 +136,17 @@ public class CardGame {
         if (winner != null) {
 
             System.out.println(
-                    "player "
-                    + winner.getPlayerId()
-                    + " wins"
+                "player " + winner.getPlayerId() + " wins"
             );
-
-            ArrayList<Thread> threads = new ArrayList<>();
-
+        
+            // Create player output files
             for (Player player : players) {
-            
-                Thread thread = new Thread(player);
-            
-                threads.add(thread);
-            
-                thread.start();
+                player.writeInitialWinResult(winner.getPlayerId());
             }
-
+        
+            // Create deck output files
+            writeDeckFiles(decks);
+        
             input.close();
             return;
         }
