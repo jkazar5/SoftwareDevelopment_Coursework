@@ -3,6 +3,8 @@ import static org.junit.Assert.assertEquals;
 
 public class PlayerTest {
 
+    
+    
     @Test
     //checking initial hand of the player
     public void testAddCardToHand() {
@@ -16,6 +18,9 @@ public class PlayerTest {
         assertEquals(4, player.getHand().size());
     }
 
+    
+    
+    
     @Test
     //Checking if player hand maintains 4 cards after each action
 
@@ -36,7 +41,33 @@ public class PlayerTest {
         player.takeTurn();
 
         assertEquals(4, player.getHand().size());
+    }
         // check if hand still has 4 cards
+    
+    
+    @Test
+    
+    public void testPreferredDenomination() {
+        Deck drawDeck = new Deck(1);
+        Deck discardDeck = new Deck(2);
+
+        Player player = new Player(1, drawDeck, discardDeck);
+
+        //give player a hand with 1 different card
+        player.addCardToHand(new Card(2));
+        player.addCardToHand(new Card(2));
+        player.addCardToHand(new Card(2));
+        player.addCardToHand(new Card(3));
+
+        Card discardCard = player.selectCardToDiscard();
+
+        assertNotNull(discardCard);
+        assertEquals(3, discardCard.getDenomination());
+        //Check if the undesired card was the one discarded
+    }
+        
+            
+            
         
 
         
