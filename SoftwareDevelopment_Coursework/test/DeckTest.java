@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 public class DeckTest {
 
     @Test
-    // testing drawCard and addCard
+    // FIFO behaviour test
     public void drawTest() {
         Deck d = new Deck(1);
 
