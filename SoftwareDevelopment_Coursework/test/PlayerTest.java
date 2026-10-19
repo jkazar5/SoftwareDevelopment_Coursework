@@ -1,5 +1,5 @@
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class PlayerTest {
 
@@ -31,7 +31,7 @@ public class PlayerTest {
 
         drawDeck.addCard(new Card(5)); // add a card to be drawn
 
-        Player player = new Player(1, drawDeck, discardDeck);
+        Player player = new Player(2, drawDeck, discardDeck);
         player.addCardToHand(new Card(1));
         player.addCardToHand(new Card(2));
         player.addCardToHand(new Card(3));
@@ -51,7 +51,7 @@ public class PlayerTest {
         Deck drawDeck = new Deck(1);
         Deck discardDeck = new Deck(2);
 
-        Player player = new Player(1, drawDeck, discardDeck);
+        Player player = new Player(3, drawDeck, discardDeck);
 
         //give player a hand with 1 different card
         player.addCardToHand(new Card(2));
@@ -65,6 +65,39 @@ public class PlayerTest {
         assertEquals(3, discardCard.getDenomination());
         //Check if the undesired card was the one discarded
     }
+
+    @Test
+
+    public void testHasWon() {
+        Deck drawDeck = new Deck(1);
+        Deck discardDeck = new Deck(2);
+
+        Player player = new Player(4, drawDeck, discardDeck);
+        
+        player.addCardToHand(new Card(5));
+        player.addCardToHand(new Card(5));
+        player.addCardToHand(new Card(5));
+        player.addCardToHand(new Card(5));
+        // add 4 cards of same denomination to hand
+
+        assertTrue(player.haswon());
+
+
+        Player player2 = new Player(4, drawDeck, discardDeck);
+        player2.addCardToHand(new Card(1));
+        player2.addCardToHand(new Card(2));
+        player2.addCardToHand(new Card(3));
+        player2.addCardToHand(new Card(4));
+        // add 4 cards of different denomination to hand
+
+        assertFalse(player2.haswon());
+    }
+}
+
+        
+
+        
+        
         
             
             
