@@ -14,7 +14,7 @@ public class CardGameTest {
     @Test
     //Testing with a pack of wrong number of cards
     public void testInvalidPack1() {
-        ArrayList<Card> pack = CardGame.loadPack("wrongCount.txt", 4);
+        ArrayList<Card> pack = CardGame.loadPack("wrongPackSize.txt", 4);
         assertNull(pack);
     }
 
