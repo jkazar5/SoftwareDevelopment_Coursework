@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,8 +14,6 @@ public class Player implements Runnable{
 
     private final Deck drawDeck;
     private final Deck discardDeck;
-
-    private final Random random;
     
     // player class that creates a new player at the start of each round
     public Player(int playerId, Deck drawDeck, Deck discardDeck) {
@@ -26,13 +23,16 @@ public class Player implements Runnable{
         this.discardDeck = discardDeck;
 
         this.hand = new ArrayList<>();
-        this.random = new Random();
     }
 
     public static void resetGame() {
         winner.set(0);
     }
 
+    public static void declareWinner(int playerId) {
+        winner.compareAndSet(0, playerId);
+    }
+    
     // getting methods
     public int getPlayerId() {
         return playerId;
@@ -83,30 +83,18 @@ public class Player implements Runnable{
     // Method used to figure out the best card for the player to discard in that round
     public Card selectCardToDiscard() {
 
-        ArrayList<Card> possibleCards =
-                new ArrayList<>();
-
+        // Find the oldest non-preferred card
         for (Card card : hand) {
-
+    
             if (card.getDenomination()
                     != getPreferredDenomination()) {
-
-                possibleCards.add(card);
+    
+                return card;
             }
         }
-
-        if (possibleCards.isEmpty()) {
-
-            // If all cards are preferred, discard a random card
-            int randomIndex = random.nextInt(hand.size());
-        
-            return hand.get(randomIndex);
-        }
-        
-        int randomIndex =
-                random.nextInt(possibleCards.size());
-        
-        return possibleCards.get(randomIndex);
+    
+        // If every card is preferred, discard the last card
+        return hand.get(hand.size() - 1);
     }
 
     private void writeToFile(String message) {
@@ -128,7 +116,9 @@ public class Player implements Runnable{
     }
     
     // take turn method discards and takes a card from each of the decks on either side of the player to complete the players current hand
-    public void takeTurn() {
+   public boolean takeTurn() {
+
+    synchronized (gameLock) {
 
         Deck firstDeck;
         Deck secondDeck;
@@ -147,14 +137,14 @@ public class Player implements Runnable{
     
                 // Stop if another player has won
                 if (winner.get() != 0) {
-                    return;
+                    return false;
                 }
     
                 // Draw a card
                 Card drawnCard = drawDeck.drawCard();
     
                 if (drawnCard == null) {
-                    return;
+                    return false;
                 }
     
                 hand.add(drawnCard);
@@ -187,14 +177,26 @@ public class Player implements Runnable{
                 }
     
                 // Record the player's current hand
-                String handMessage =
+               String handMessage =
                     "player " + playerId +
                     " current hand is " + handToString();
-    
+                
                 System.out.println(handMessage);
                 writeToFile(handMessage);
+                
+                // Check for victory before another player takes a turn
+                if (hasWon() && winner.compareAndSet(0, playerId)) {
+                
+                    String winMessage =
+                        "player " + playerId + " wins";
+                
+                    System.out.println(winMessage);
+                    writeToFile(winMessage);
+                } 
+                return true;
             }
         }
+    } // end of gamelock
     }
     // converting the hand to a string to make it easier for the code to deal with than the integers
     public String handToString() {
@@ -294,23 +296,15 @@ public class Player implements Runnable{
     
             // Normal gameplay
             while (winner.get() == 0) {
-    
-                takeTurn();
-    
-                synchronized (gameLock) {
 
-                    if (winner.get() == 0 && hasWon()) {
-                
-                        winner.set(playerId);
-                
-                        System.out.println(
-                            "player " + playerId + " wins"
-                        );
-                
-                        writeToFile(
-                            "player " + playerId + " wins"
-                        );
-                
+                boolean completedTurn = takeTurn();
+            
+                if (!completedTurn) {
+            
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                         break;
                     }
                 }
