@@ -10,6 +10,8 @@ public class CardGame {
 
     public static void main(String[] args) {
 
+        Player.resetGame();
+    
         Scanner input = new Scanner(System.in);
 
         int numberOfPlayers = getNumberOfPlayers(input);
