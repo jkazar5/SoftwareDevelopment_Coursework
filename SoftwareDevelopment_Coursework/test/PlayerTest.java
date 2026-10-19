@@ -22,7 +22,7 @@ public class PlayerTest {
     
     
     @Test
-    //Checking if player hand maintains 4 cards after each action
+    //Checking if player hand maintains 4 cards after each atomic action
 
     public void testMaintainsFourCards() {
         
