@@ -9,31 +9,31 @@ public class CardGame {
 
         Scanner input = new Scanner(System.in);
 
-        int numberOfPlayers =
-                getNumberOfPlayers(input);
+        int numberOfPlayers = getNumberOfPlayers(input);
 
+        // Generate a pack automatically for testing
+        System.out.print("Generate a new pack? (yes/no): ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equalsIgnoreCase("yes")) {
+                PackGenerator.generatePack(numberOfPlayers);
+        }
+
+        // Load and validate the pack
         ArrayList<Card> pack = null;
 
         while (pack == null) {
 
-            System.out.println(
-                    "Please enter location of pack to load:"
-            );
+                System.out.print("Enter pack filename: ");
+                String filename = input.nextLine().trim();
 
-            String filename =
-                    input.nextLine();
+                pack = loadPack(filename, numberOfPlayers);
 
-            pack = loadPack(
-                    filename,
-                    numberOfPlayers
-            );
-
-            if (pack == null) {
-
-                System.out.println(
-                        "Invalid pack. Please try again."
-                );
-            }
+                if (pack == null) {
+                        System.out.println(
+                                "Invalid pack. Please try again."
+                        );
+                }
         }
 
         // CREATE DECKS
