@@ -35,7 +35,7 @@ public class PlayerTest {
         player.addCardToHand(new Card(1));
         player.addCardToHand(new Card(2));
         player.addCardToHand(new Card(3));
-        player.addCardToHand(new card(4));
+        player.addCardToHand(new Card(4));
         // adding initial player hand
 
         player.takeTurn();
@@ -80,7 +80,7 @@ public class PlayerTest {
         player.addCardToHand(new Card(4));
         // add 4 cards of same denomination to hand
 
-        assertTrue(player.haswon());
+        assertTrue(player.hasWon());
 
 
         Player player2 = new Player(4, drawDeck, discardDeck);
@@ -90,6 +90,6 @@ public class PlayerTest {
         player2.addCardToHand(new Card(4));
         // add 4 cards of different denomination to hand
 
-        assertFalse(player2.haswon());
+        assertFalse(player2.hasWon());
     }
 }
